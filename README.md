@@ -1,8 +1,7 @@
 - 👋 Hi, I’m @daegeunbae
 - 👀 I’m interested in Data Analysis
-- 🌱 I’m currently learning Machine Learning and Deep Learning
-- 💞️ I’m looking to collaborate on ...
-- 📫 How to reach me ...
+- 🌱 I’m currently learning Machine Learning, Deep Learning, Python, Java Script etc..
+- 📫 How to reach me 010-4590-4917
 
 Prove it with results rather than words.
 I like to show by action rather than by words. I proved myself with results rather than with previous words and showed all employees a clear sense of goal and skills. 
