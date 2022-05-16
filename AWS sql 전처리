@@ -1,0 +1,38 @@
+use project;
+# select * from `J_Sample - Superstore`;
+
+# First_Purchase
+# Order_Date - First_Purchase -> (Column)(분기간의 차이)
+# First_Purchase -> (Row)
+# Order_cnt / Total_order_cnt
+#########################################################################
+# 		cohort create row columns (temporary table : Month DIFF)		#
+CREATE TEMPORARY TABLE IF NOT EXISTS FirstPurchase_tbl
+select 	O.`customer ID`,
+		FP.`First Purchase`,
+		str_to_date(O.`Order Date`, "%Y-%m-%d") as `Order Month`
+from `J_Sample - Superstore` O
+left join (
+	select `customer ID`, str_to_date(min(`Order Date`), "%Y-%m-%d")  as `First Purchase`
+	from `J_Sample - Superstore`
+	group by `customer ID`
+) FP on O.`customer ID` = FP.`customer ID`;
+
+create temporary table IF NOT EXISTS `Month DIFF`
+select  *, TIMESTAMPDIFF(MONTH, `First Purchase`, `Order Month`) as `Month Diff` 
+from FirstPurchase_tbl;
+
+create table IF NOT EXISTS Cohort_TBL
+select O.*,
+		T.`First Purchase`,
+		T.`Order Month`,
+        T.`Month Diff`
+from `J_Sample - Superstore` O
+left join 
+(
+	select  *, TIMESTAMPDIFF(MONTH, `First Purchase`, `Order Month`) as `Month Diff` 
+	from FirstPurchase_tbl
+) T on O.`customer ID` = T.`customer ID`;
+
+select * from Cohort_TBL;
+#########################################################################
