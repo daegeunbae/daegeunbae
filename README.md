@@ -1,7 +1,36 @@
-- 👋 Hi, I’m @daegeunbae
-- 👀 I’m interested in Data Analysis
-- 🌱 I’m currently learning Machine Learning, Deep Learning, Python, Java Script etc..
+- 👋 Hi, I’m Daegeun Bae.
+- 👀 I’m a e-commerce Data Scientist.
+- 🌱 I’m currently learning Machine Learning, Deep Learning, Python, etc..
+- 👋 I can use Python, JAVA, Javascript, MariaDB, Vim, Shell Script, Linux, MongoDB, MySQL, PySQL, figma, React, Pandas, Tableau, Photoshop, AWS Lambda, BigQuery, Hadoop, Airflow, Google Analytics.
 - 📫 How to reach me 010-4590-4917
+
+My Project
+1. 데이터 분석 부문 : 고객 세그먼트 및 RFM/ Cohort 분석
+- 수행 기간 : 2023.01 ~ 2023.02 (약 3개월 소요)
+- 사용 Tool : Python, SQL, Numpy, Pandas, Tableau, Excel, Power Point, Matplotlib, Scikit-learn, Seaborn
+- 업무 성과 : 이유식 주요 고객 세분화, 데이터 시각화 인사이트 도출 
+
+2. 프로젝트 관리 부문 : 홈플러스 크롤링기반 웹대시보드 서비스 프로젝트 총괄
+- 주요 역할: 홈플러스 고객사의 주력 상품 4000개와 동일한 경쟁사 가격몰 상품 정보 크롤링 및 가격 비교 대시보드 구현을 위한 프로젝트 진행
+- 수행 기간 : 2022.05 ~ 2022.12 (약 5개월 소요)
+- 업무 성과 :  고객사와 경쟁사와의 가격 정보 크롤링 및 가격 비교 데일리 트래킹을 통해 누수 점검 및 경쟁상품 팔로우 업
+- 모니터링: 크롤링 대시보드 마케팅툴 데이터 오류 방지 위한 사내 체크리스트 작성 및 전체 모니터링
+
+3.기타사항
+국내사업그룹팀 PM&데이터사이언티스트 
+- 사용자의 서비스 이용현황을 다양한 관점에서 모니터링 하는 대시보드 개발 프로젝트 운영 
+- 서비스 모니터링 지표의 변동 원인을 분석 리포팅하며, 이를 개선하기 위해 개발자와 커뮤니케이션 및 개선 성공 
+- 서비스 성장을 위한 실험을 설계하고 결과 분석 및 리포팅 
+- 데이터 기반의 서비스 개선 및 성장에 기여 
+- SQL을 활용한 데이터 추출 및 가공 
+- Python 데이터 분석 및 리포팅 
+- 개발팀 총괄 소장님과 커뮤니케이션을 통해 사용자 사용 개선 
+- A/B테스트 설계 및 결과 분석
+
+Data Scientist
+1) AWS 또는 클라우드 기반 데이터 인프라 구축 및 운영 경험
+2) 데이터 시각화 또는 BI툴(Tableau) 활용 경험
+3) IT 개발/기획/운영 경험
 
 Prove it with results rather than words.
 I like to show by action rather than by words. I proved myself with results rather than with previous words and showed all employees a clear sense of goal and skills. 
@@ -21,8 +50,5 @@ I have experienced sales of less than 10 million won to more than 300 million wo
 
 This is one of my Project.
 
-데이터 사이언티스트 관련 경험
-1) AWS 또는 클라우드 기반 데이터 인프라 구축 및 운영 경험
-2) 데이터 시각화 또는 BI툴(Tableau) 활용 경험
-3) IT 개발/기획/운영 경험
+
 
