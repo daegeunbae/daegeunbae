@@ -55,5 +55,41 @@ I have experienced sales of less than 10 million won to more than 300 million wo
 
 This is one of my Project.
 
+Exploratory e-commerce Data Analysis using SQLite
+개요
+1-1. 데이터 스키마
+1-2. 프로젝트 목표
 
+데이터 로드 및 개별 데이터 이해
+2-1. orders
+2-2. order_payments
+2-3. order_reviews
+2-4. order_items
+2-5. products & products_cat_translated
+2-6. sellers
+2-7. customers
+2-8. geolocation
+
+SQL분석 - ad hoc 분석 시뮬레이션
+3-1. Query 1: 고객만족
+3-2. Query 2: 고객 주문수 트렌드
+3-3. Query 3: 결제관련
+3-4. Query 4: 제품 카테고리
+3-5. Query 5: 판매자
+3-6. Query 6: 주(state)별 현황
+3-7. Query 7: 주(state)별 배송 관련
+
+SQL분석 - 비즈니스 분석
+4-1. Query 8: 재구매율
+4-2. Query 9: 카테고리별 성장률
+4-3. Query 10: 코호트분석
+4-4. Query 11: RFM분석
+4-4-1. 데이터 준비
+4-4-2. 데이터 전처리
+4-4-3. R,F,M 점수화(범위: 1~5점)
+4-4-4. 고객 클러스터링
+4-4-5. R,F,M 가중치 계산
+4-4-6. 고객별 RFM점수 산정
+4-4-7. 고객별 RFM점수에 따른 고객 등급화
+4-4-8. ANOVA
 
