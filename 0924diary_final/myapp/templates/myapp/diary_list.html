@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&display=swap" rel="stylesheet">
+    <!-- font-family: 'Noto Sans', sans-serif; -->
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/diary_css1.css' %}">
+    <!-- Flatpickr 라이브러리 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.min.css">
+
+    <title>My Diary</title>
+</head>
+
+<body>
+    <div class="outBox">
+        <header>
+            <div class="headfont">3줄 일기장</div>
+        </header>
+        <div class="create" style="float: right;">
+            <a href="{% url 'myapp:create' %}">Create</a>
+        </div>
+
+
+        <!-- 달력 컨테이너 -->
+        <div id="calendarContainer" style="display: none;"></div>
+
+
+        <div class="calendar-container">
+            <!-- Show Calendar 버튼 -->
+            <button id="calendarButton">Show Calendar</button>
+            <!-- 달력 입력 필드 -->
+            <input type="text" id="datePickerInput" readonly>
+            <!-- 달력 표시 위치 -->
+            <div id="calendar"></div>
+        </div>
+        <div class="content-container">
+            <!-- 선택한 날짜의 content를 표시할 위치 -->
+            <div id="contentDiv"></div>
+        </div>
+
+
+        {% for diary in diary_list %}
+        <div class="contentBox">
+            <div class="date">{{ diary.date }}</div>
+            <div class="content1">{{ diary.content1 }}</div>
+            <div class="content2">{{ diary.content2 }}</div>
+            <div class="content3">{{ diary.content3 }}</div>
+            <div class="todo1">{{ diary.todo1 }}</div>
+            <div class="todo2">{{ diary.todo2 }}</div>
+            <div class="todo3">{{ diary.todo3 }}</div>
+            <div class="actionButton update">
+                <a href="{% url 'myapp:diary_update' diary.id %}">Update</a>
+            </div>
+            <div class="actionButton delete">
+                <a href="{% url 'myapp:diary_delete' diary.id %}">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- 페이지 번호 -->
+        <div class="pageNumBox">
+            <div class="pagination">
+                <span class="step-links">
+                    {% if diary_list.has_previous %}
+                    <a href="?page=1">&laquo; 첫번째 페이지</a>
+                    <a href="?page={{ diary_list.previous_page_number }}">이전</a>
+                    {% endif %}
+
+                    <span class="current-page">{{ diary_list.number }}</span>
+
+                    {% if diary_list.has_next %}
+                    <a href="?page={{ diary_list.next_page_number }}">다음</a>
+                    <a href="?page={{ diary_list.paginator.num_pages }}">마지막 페이지 &raquo;</a>
+
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // datepicker 초기화
+                var datePickerInput = document.getElementById("datePickerInput");
+                flatpickr(datePickerInput, {
+                    dateFormat: "Y-m-d",  // 원하는 날짜 형식으로 설정
+                });
+
+                // Show Calendar 버튼 클릭 시 달력을 표시
+                var calendarButton = document.getElementById("calendarButton");
+                calendarButton.addEventListener("click", function () {
+                    datePickerInput._flatpickr.open();
+                });
+
+                // 달력에서 날짜 선택 시 해당 날짜의 content 조회
+                datePickerInput.addEventListener("change", function () {
+                    var selectedDate = datePickerInput.value;
+
+                    // Django 서버에 선택한 날짜를 전달하여 content를 조회
+                    fetch(`/myapp/get_content/?date=${selectedDate}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // 조회된 content를 화면에 표시
+                            var contentDiv = document.getElementById("contentDiv");
+                            contentDiv.innerHTML = JSON.stringify(data.content);
+                        });
+                });
+            });
+        </script>
+    </div>
+</body>
+
+</html>

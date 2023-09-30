@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/diary_css1.css' %}">
+    <title>{% block title %}일기장 {% endblock %}</title>
+</head>
+
+<body>
+    <h1>{% block header %}일기장 수정{% endblock %}</h1>
+    <!-- 블록으로 헤더 설정 -->
+
+    {% block content %}
+    <a href="{% url 'diary_list' %}">다이어리 목록 링크</a>
+
+    <!-- 블록으로 내용 설정 -->
+    {% endblock %}
+
+
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/diary_css1.css' %}">
+    <title>Create New Content</title>
+</head>
+
+<body>
+    <form method="post">
+        <div class="outBox">
+            <header>
+                <div class="headfont">3줄 일기장</div>
+            </header>
+
+            <div class="calendar">
+                <span class="material-symbols-outlined">calendar_month</span>
+                23/09/24
+            </div>
+
+            <div class="container">
+                <!-- <h2>Create New Content</h2> -->
+                <form method="post" action="{% url 'myapp:create' %}">
+
+                    {% csrf_token %}
+
+                    <label for="content1">1줄</label>
+                    <input type="text" id="content1" name="content1" class="styled-input"><br>
+                    <label for="content2">2줄</label>
+                    <input type="text" id="content2" name="content2" class="styled-input"><br>
+                    <label for="content3">3줄</label>
+                    <input type="text" id="content3" name="content3" class="styled-input"><br>
+                    <label for="todo1">TodoList 1:</label>
+                    <input type="text" id="todo1" name="todo1" class="styled-input"><br>
+                    <label for="todo2">TodoList 2:</label>
+                    <input type="text" id="todo2" name="todo2" class="styled-input"><br>
+                    <label for="todo3">TodoList 3:</label>
+                    <input type="text" id="todo3" name="todo3" class="styled-input"><br>
+                    <button class="submit" type="submit">Save</button>
+
+                </form>
+            </div>
+        </div>
+    </form>
+    <!-- <a href="{% url 'myapp:diary_list' %}">Back to Diary List</a> -->
+    <a href="#" id="back-to-list">Back to Diary List</a>
+
+</body>
+
+</html>

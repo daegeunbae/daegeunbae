@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/diary_css1.css' %}">
+    <title>Delete Diary</title>
+</head>
+
+<body>
+    <div class="outBox">
+        <header>
+            <div class="headfont">다이어리 삭제</div>
+        </header>
+
+        <div class="container">
+            <p>다이어리 내용을 삭제하시겠습니까?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button class="submit" type="submit">확인</button>
+            </form>
+            <a href="{% url 'myapp:diary_list' %}">취소</a>
+        </div>
+    </div>
+</body>
+
+</html>
