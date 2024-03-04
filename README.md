@@ -1,7 +1,7 @@
 - 👋 Hi, I’m Daegeun Bae.
 - 👀 I’m a e-commerce Data Scientist.
-- 🌱 I’m currently learning Machine Learning, Deep Learning, Python, etc..
-- 👋 I can use Python, JAVA, Javascript, MariaDB, Vim, Shell Script, Linux, MongoDB, MySQL, PySQL, figma, React, Pandas, Tableau, Photoshop, AWS Lambda, BigQuery, Hadoop, Airflow, Google Analytics.
+- 🌱 I’m currently learning RPA, Machine Learning, Deep Learning, Python, etc..
+- 👋 I can use Python, MySQL, JAVA, Javascript, Vim, Shell Script, Linux, MongoDB, MariaDB, figma, Tableau, Photoshop, AWS Lambda, Google Analytics.
 - 📫 How to reach me 010-4590-4917
 
 My Work
