@@ -29,7 +29,9 @@ My Work
 
 My Project
 - 
-
+풀스택을 활용하여 직접 만든 웹사이트 포트폴리오입니다.
+http://kkms4001.iptime.org/~c18st10/portfolio/240303blog01.html
+Marketing_Dashboard
 http://kkms4001.iptime.org/~c18st10/project1/Marketing_Dashboard.html
 
 As Data Scientist
