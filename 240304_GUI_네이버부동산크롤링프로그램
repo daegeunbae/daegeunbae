@@ -1,0 +1,158 @@
+import sys
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+import pandas as pd
+from bs4 import BeautifulSoup
+import json
+import requests
+from tqdm import tqdm
+import random
+import time
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QTextEdit, QMessageBox, QMenu, QAction,QFileDialog
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import QDate, Qt
+from PyQt5.QtGui import QIcon  # QIcon 추가
+
+class NaverRealEstateCrawler(QMainWindow):
+    #이 코드는 클래스의 생성자를 정의하고, 부모 클래스의 생성자를 호출한 후에 UI 초기화 작업을 수행
+    #클래스의 생성자를 정의. 여기서 __init__() 메서드는 클래스의 생성자(Constructor) 역할
+    #self는 클래스의 인스턴스를 가리키는 첫 번째 매개변수
+    def __init__(self):
+        #super() 함수를 사용하여 부모 클래스의 __init__() 메서드를 호출
+        #이 메서드는 사용자 인터페이스(UI)를 초기화하는 역할
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle("네이버 부동산 크롤러")
+        self.setGeometry(100, 100, 400, 400)
+
+        #창 아이콘 설정
+        self.setWindowIcon(QIcon('./image/eco01.png'))
+
+        #메뉴바 생성
+        menubar = self.menuBar()
+        #네이티브 메뉴 바를 사용하지 않도록 설정
+        menubar.setNativeMenuBar(False)
+        
+        #1."File" 그룹 생성하고, 그 안에 sub그룹 생성
+        menu_file = menubar.addMenu('&File')
+        #2.edit 그룹 생성
+        menu_edit = menubar.addMenu('&Edit')
+       
+        #1.File
+        #1-1.file_new
+        file_new = QMenu('New', self)
+        
+        file_new_txt1 = QAction("테스트파일1", self)
+        file_new_txt2 = QAction("테스트파일2", self)
+        
+        file_new.addAction(file_new_txt1)
+        file_new.addAction(file_new_txt2)
+        
+        #1-2.Exit
+        exitAction = QAction(QIcon('./image/eco02.png'), 'Exit', self)
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('종료~~~~~')
+        #triggered 시그널이 발생했을 때 qApp.quit 함수를 호출하여 애플리케이션을 종료하도록 연결
+        exitAction.triggered.connect(QApplication.instance().quit)
+        
+        #menu_file에 그룹 추가(맨 마지막 작업 필요)
+        menu_file.addMenu(file_new)
+        menu_file.addAction(exitAction)
+
+        #시동정보 입력
+        self.city_label = QLabel(self)
+        self.city_label.setText("시:")
+        self.city_label.move(50, 50)
+
+        self.city_entry = QLineEdit(self)
+        self.city_entry.move(100, 50)
+
+        self.dong_label = QLabel(self)
+        self.dong_label.setText("동:")
+        self.dong_label.move(50, 100)
+
+        self.dong_entry = QLineEdit(self)
+        self.dong_entry.move(100, 100)
+
+        self.crawl_button = QPushButton("크롤링 및 추출", self)
+        self.crawl_button.setGeometry(100, 150, 200, 30)
+        self.crawl_button.clicked.connect(self.crawl_and_export)
+
+        self.status_label = QLabel(self)
+        self.status_label.setGeometry(50, 200, 300, 30)
+
+    def crawl_and_export(self):
+        #GUI에서 입력된 도시와 동 저장
+        city = self.city_entry.text()
+        dong = self.dong_entry.text()
+
+        #입력된 city와 dong이 없는 경우 에러 메시지를 표시하고 함수를 종료
+        if not city or not dong:
+            QMessageBox.critical(self, "Error", "시와 동을 입력하세요.")
+            return
+
+        def chrome_div():
+            options = Options()
+            options.add_argument('--start-maximized')
+            # options.add_argument('--headless=new')
+            options.add_experimental_option('detach',True)
+            div = webdriver.Chrome(options=options)
+            return div
+        #크롬 드라이버를 사용하여 네이버 부동산 사이트로 이동
+        driver = chrome_div()
+        driver.get(f"https://m.land.naver.com")
+        driver.implicitly_wait(1)
+
+        #도시와 동을 입력하여 부동산 정보 검색
+        driver.find_element(By.CSS_SELECTOR,'#header > div > div.FlexibleLayout-module_row__P4p6X > div > div > div:nth-child(1) > header > div > div > a.HeaderButton-module_article__KwTay._innerLink').click()
+        driver.find_element(By.CSS_SELECTOR,'#query').send_keys(city + " " + dong)
+        driver.find_element(By.CSS_SELECTOR,'#landSearchBtn').click()
+        time.sleep(1)
+
+        #검색 결과 페이지의 URL을 가져와서 path 변수에 저장
+        path = driver.current_url
+        #검색 결과 페이지에서 검색된 부동산의 개수를 가져와 path2 변수에 저장
+        path2 = driver.find_element(By.XPATH,'//*[@id="_countContainer"]/a[1]/em').text
+        #path를 '/' 기준으로 분리하여 splitt에 저장하고, 분리된 URL의 일부를 가져와 path3 변수에 저장
+        splitt = path.split('/')
+        path3 = splitt[4]
+        #path3를 ':' 기준으로 분리하여 split_values에 저장
+        split_values = path3.split(':')
+        latitude = float(split_values[0])
+        longitude = float(split_values[1])
+        zoom_level = split_values[2]
+        property_id = split_values[3]
+        h = {"Accept-Encoding": "gzip, deflate, br",
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlJFQUxFU1RBVEUiLCJpYXQiOjE2NTk5MzcxNTIsImV4cCI6MTY1OTk0Nzk1Mn0.PD7SqZO7z8f97uGQpfSKYMPbrLy6YtRl9XYHWaHiVVE",
+        "Host": "m.land.naver.com",
+        "Referer": "",
+        "sec-ch-ua": "\".Not\/A)Brand\";v=\"99\", \"Google Chrome\";v=\"103\", \"Chromium\";v=\"103\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "Windows",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"}
+        random_time = random.uniform(0.5, 1.5)
+        dr=[]
+        for i in tqdm(range(1,int((int(path2)+1)/20)+2)):
+            url3= 'https://m.land.naver.com/cluster/ajax/articleList?itemId=&mapKey=&lgeo=&showR0=&rletTpCd=APT%3AABYG%3AJGC&tradTpCd=A1%3AB1%3AB2&z=14&=&totCnt='+str(path2)+'&cortarNo='+str(property_id)+'&sort=rank&page=1'
+            res = requests.get(url3,headers=h)
+            soup = BeautifulSoup(res.text,'html.parser')
+            temp=json.loads(soup.text)
+            dr.append(temp)
+            time.sleep(random_time)
+            data = {"시": [city], "동": [dong]}
+            df = pd.DataFrame(data)
+        a = pd.DataFrame(dr)
+        data =[]
+        for i in range(len(a)):
+            for j in range(len(a['body'][i])):
+                path = (a['body'][i][j])
+                data.append(path)
+
+        df = pd.DataFrame(data)
